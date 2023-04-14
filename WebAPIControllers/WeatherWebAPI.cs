@@ -1,16 +1,10 @@
 ﻿namespace Weather_Forecast_App.WebAPIControllers
 {
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Text;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
-
     using DevExtreme.AspNet.Data;
     using DevExtreme.AspNet.Mvc;
 
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
+
     using Weather_Forecast_App.Interfaces;
     using Weather_Forecast_App.Models.Weather;
     using Weather_Forecast_App.ViewModels;
@@ -31,11 +25,10 @@
             Weather weatherData = this.weatherApiService.GetForecastWeather(data).Result;
             var weatherViewModel = new WeatherViewModel()
             {
-                name = weatherData.Location.name,
-                region = weatherData.Location.region,
-                country = weatherData.Location.country,
-                lat = weatherData.Location.lat,
-                temp_c = weatherData.Current.temp_c  
+                Region = weatherData.Location.region,
+                Country = weatherData.Location.country,
+                Latitude = weatherData.Location.lat,
+                Temparatue = weatherData.Current.temp_c,
             };
             List<WeatherViewModel> weatherList = new List<WeatherViewModel>();
 
@@ -44,12 +37,23 @@
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
 
-        [HttpGet]
-        public Weather test(string data)
+        public IActionResult GetDailyData(DataSourceLoadOptions loadOptions, string data)
         {
-            Weather weatherData = this.weatherApiService.GetForecastWeather("England").Result;
-            
-            return weatherData;
+            if (data == null)
+            {
+                data = "England";
+            }
+            Weather weatherData = this.weatherApiService.GetForecastWeather(data).Result;
+
+            List<Day> days = new List<Day>();
+
+            foreach (var dailyData in weatherData.Forecast.forecastday)
+            {
+                days.Add(dailyData.day);
+
+            }
+
+            return Json(DataSourceLoader.Load(days, loadOptions));
         }
 
         public IActionResult GetCountryList(DataSourceLoadOptions loadOptions)
@@ -66,10 +70,32 @@
                 name = "England"
             };
 
+            EnumCountries albania = new EnumCountries()
+            {
+                Id = 3,
+                name = "Albania"
+            };
+
+            EnumCountries Zimbabwe = new EnumCountries()
+            {
+                Id = 4,
+                name = "Zimbabwe"
+            };
+
+            EnumCountries Nigeria = new EnumCountries()
+            {
+                Id = 4,
+                name = "Nigeria"
+            };
+
+
             List<EnumCountries> countries = new List<EnumCountries>();
 
             countries.Add(taiwan);
             countries.Add(england);
+            countries.Add(albania);
+            countries.Add(Zimbabwe);
+            countries.Add(Nigeria);
 
             return Json(DataSourceLoader.Load(countries, loadOptions));
         }

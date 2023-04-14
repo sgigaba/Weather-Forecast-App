@@ -4,13 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+<h1 class="display-2"> Weather ForeCast App </h1>
 
 <div class="dx-fieldset-header">
     Select a Country below for weather forcast
 </div>
 
 <div class="dx-field">
-    <div class="dx-field-label">Country</div>
+    <div class="dx-field-label">Todays Weather </div>
+
     <div class="dx-field-value">
         @(Html.DevExtreme().SelectBox()
             .ID("search-box")
@@ -27,6 +29,8 @@
     </div>
 </div>
 
+
+
 @(
 Html.DevExtreme().Form<Weather_Forecast_App.Models.Weather.Weather>()
             .ID("form")
@@ -37,6 +41,47 @@ Html.DevExtreme().Form<Weather_Forecast_App.Models.Weather.Weather>()
             .MinColWidth(300)
             .ReadOnly(true)
             .ShowColonAfterLabel(true)
+)
+<br>
+<div class="dx-field">
+    <div class="dx-field-label">Weather Forecast (3) days</div>
+
+    <div class="dx-field-value">
+        @(Html.DevExtreme().SelectBox()
+            .ID("daily-box")
+            .DataSource(d => d
+            .Mvc()
+            .Controller("WeatherWebAPI")
+            .LoadAction("GetCountryList")
+            .Key("ID")
+            )
+            .DisplayExpr("name")
+            .OnValueChanged("ViewDailyForeCast")
+            .SearchEnabled(true)
+            )
+    </div>
+</div>
+
+<br />
+
+@(Html.DevExtreme().DataGrid<Weather_Forecast_App.Models.Weather.ForeCastDay>()
+    .ID("gridContainer")
+    .DataSource(d => d.OData()
+    .Url("https://localhost:7125/WeatherWebApi/GetDailyData"))
+    .RemoteOperations(true)
+    .Columns(columns =>
+    {
+
+        columns.Add()
+            .DataField("maxtemp_c");
+
+        columns.Add()
+            .DataField("mintemp_c");
+
+        columns.Add()
+            .DataField("avg_c");
+
+    })
 )
 
 <script src="~/js/pages/WeatherForeCast.js"></script>

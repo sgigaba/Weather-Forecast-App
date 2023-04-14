@@ -2,9 +2,11 @@
 {
     using System.Net.Http.Headers;
     using System.Net.Http;
+
+    using Newtonsoft.Json;
+
     using Weather_Forecast_App.Interfaces;
     using Weather_Forecast_App.Models.Weather;
-    using Newtonsoft.Json;
 
     public class WeatherApiService : IWeatherApiService
     {
