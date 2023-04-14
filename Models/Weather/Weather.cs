@@ -2,7 +2,7 @@
 {
     public class Weather
     {
-        public string TemparatureInCelcius { get; set; }
+        public decimal TemparatureInCelcius { get; set; }
 
         public decimal WindSpeed { get; set; }
 

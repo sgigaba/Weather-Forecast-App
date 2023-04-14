@@ -6,8 +6,8 @@
 
 @(Html.DevExtreme().DataGrid<Weather_Forecast_App.Models.Weather.Weather>()
     .DataSource(ds => ds.Mvc()
-        .Controller("WeatherController")
-        .LoadAction("Index")
+        .Controller("WeatherWebAPI")
+        .LoadAction("Get")
         .InsertAction("Post")
         .UpdateAction("Put")
         .DeleteAction("Delete")
