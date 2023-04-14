@@ -27,19 +27,6 @@
     </div>
 </div>
 
-@*@(
-Html.DevExtreme().Form<Weather_Forecast_App.Models.Weather.Weather>()
-            .ID("location-form")
-            .ColCount(4)
-            .FormData(Model)
-            .LabelMode(FormLabelMode.Floating)
-            .LabelLocation(FormLabelLocation.Left)
-            .MinColWidth(300)
-            .ReadOnly(true)
-            .ShowColonAfterLabel(true)
-)
-*@
-
 @(
 Html.DevExtreme().Form<Weather_Forecast_App.Models.Weather.Weather>()
             .ID("form")
