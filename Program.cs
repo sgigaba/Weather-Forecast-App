@@ -1,5 +1,6 @@
 namespace Weather_Forecast_App
 {
+    using FluentValidation;
     using Weather_Forecast_App.Interfaces;
     using Weather_Forecast_App.Services;
 
