@@ -9,10 +9,12 @@
     public class WeatherApiService : IWeatherApiService
     {
         private readonly IHttpClientFactory HttpClientFactory;
+        private readonly ICacheService cacheService;
 
-        public WeatherApiService(IHttpClientFactory httpClientFactory)
+        public WeatherApiService(IHttpClientFactory httpClientFactory, ICacheService cacheService)
         {
             HttpClientFactory = httpClientFactory;
+            this.cacheService = cacheService;
         }
 
         public Weather DecodeWeatherResponse(string response)
@@ -22,43 +24,27 @@
             return weather;
         }
 
-        public async Task<Weather> GetWeather()
-        {
-
-            var client = HttpClientFactory.CreateClient();
-
-            client.DefaultRequestHeaders
-                .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = client
-                .GetAsync(string
-                .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q=London&days=3&aqi=no&alerts=no"))
-                .Result;
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            var weather = this.DecodeWeatherResponse(responseString);
-
-            return weather;
-        }
-
         public async Task<Weather> GetForecastWeather(string country)
         {
+            Weather weather = (Weather)this.cacheService.FetchFromCache(country);
 
-            var client = HttpClientFactory.CreateClient();
+            if (weather == null)
+            {
+                var client = HttpClientFactory.CreateClient();
 
-            client.DefaultRequestHeaders
-                .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders
+                    .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var response = client
-                .GetAsync(string
-                .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q="+country+ "&days=3&aqi=no&alerts=no"))
-                .Result;
+                var response = client
+                    .GetAsync(string
+                    .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q=" + country + "&days=3&aqi=no&alerts=no"))
+                    .Result;
 
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            var weather = this.DecodeWeatherResponse(responseString);
-
+                var responseString = await response.Content.ReadAsStringAsync();
+                weather = this.DecodeWeatherResponse(responseString);
+                cacheService.AddToCache(country, weather);
+            }
+   
             return weather;
         }
     }

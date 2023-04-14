@@ -24,14 +24,6 @@
         }
 
         [HttpGet]
-        public IActionResult Get(DataSourceLoadOptions loadOptions)
-        {
-            Weather weatherData = this.weatherApiService.GetWeather().Result;
-
-            List<Weather> weatherList = new List<Weather>() { weatherData };
-
-            return Json(DataSourceLoader.Load(weatherList, loadOptions));
-        }
 
         public IActionResult GetForeCastData(DataSourceLoadOptions loadOptions, string data)
         {

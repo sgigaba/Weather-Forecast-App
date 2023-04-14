@@ -15,6 +15,8 @@ namespace Weather_Forecast_App
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             builder.Services.AddHttpClient();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddSingleton<ICacheService, CacheService>();
             builder.Services.AddScoped<IWeatherApiService, WeatherApiService>();
 
             var app = builder.Build();
