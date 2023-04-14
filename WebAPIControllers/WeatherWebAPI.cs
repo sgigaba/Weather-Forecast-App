@@ -43,22 +43,6 @@
 
         public async Task<Weather> WeatherAPI()
         {
-            /*            var json = new 
-                        {
-                            url = "http://api.weatherapi.com/v1/current.json?key=71de2c37ead844df82261931231404&q=England&aqi=no" 
-                        };
-
-                        string jsonString = JsonSerializer.Serialize(json);
-
-                        var payload = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-                        var client = HttpClientFactory.CreateClient();
-                        client.DefaultRequestHeaders.Add("Authorization", "71de2c37ead844df82261931231404");
-
-                        HttpResponseMessage response = await 
-                            client.PostAsync("http://api.weatherapi.com/v1/current.json?key=71de2c37ead844df82261931231404&q=England&aqi=no", payload);
-
-                        string responseJson = await response.Content.ReadAsStringAsync();*/
 
             var client = HttpClientFactory.CreateClient();
 
