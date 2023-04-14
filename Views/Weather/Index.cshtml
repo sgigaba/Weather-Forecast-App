@@ -4,7 +4,7 @@
 
 <h2>Index</h2>
 
-@(Html.DevExtreme().DataGrid<Weather_Forecast_App.Models.Weather.Weather>()
+@(Html.DevExtreme().DataGrid<Weather_Forecast_App.Models.Weather.Current>()
     .DataSource(ds => ds.Mvc()
         .Controller("WeatherWebAPI")
         .LoadAction("Get")
@@ -15,15 +15,15 @@
     .RemoteOperations(true)
     .Columns(columns => {
 
-        columns.AddFor(m => m.TemparatureInCelcius);
+        columns.AddFor(m => m.temp_c);
 
-        columns.AddFor(m => m.WindSpeed);
+        columns.AddFor(m => m.wind_mph);
 
-        columns.AddFor(m => m.Humidity);
+        columns.AddFor(m => m.humidity);
 
-        columns.AddFor(m => m.IsDayOrNight);
+        columns.AddFor(m => m.is_day);
 
-        columns.AddFor(m => m.Condition);
+        columns.AddFor(m => m.feelslike_c);
     })
     .Editing(e => e
         .AllowAdding(true)

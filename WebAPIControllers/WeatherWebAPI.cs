@@ -10,51 +10,26 @@
     using DevExtreme.AspNet.Mvc;
 
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using Weather_Forecast_App.Interfaces;
     using Weather_Forecast_App.Models.Weather;
 
     public class WeatherWebAPI : Controller
     {
+        private readonly IWeatherApiService weatherApiService;
 
-        private readonly IHttpClientFactory HttpClientFactory;
-
-        public WeatherWebAPI(IHttpClientFactory HttpClientFactory)
+        public WeatherWebAPI(IWeatherApiService weatherApiService)
         {
-            this.HttpClientFactory = HttpClientFactory;
+            this.weatherApiService = weatherApiService;
         }
 
         [HttpGet]
         public IActionResult Get(DataSourceLoadOptions loadOptions)
         {
-            this.WeatherAPI();
+            Current weatherData = this.weatherApiService.GetWeather().Result.Current;
 
-            Weather weatherData = new Weather()
-            {
-                TemparatureInCelcius = 20,
-                WindSpeed = 35,
-                Humidity = 27,
-                IsDayOrNight = 1,
-                Condition = "Beautiful and Sunny"
-            };
-
-            List<Weather> weatherList = new List<Weather>() { weatherData };
+            List<Current> weatherList = new List<Current>() { weatherData };
 
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
-
-        public async Task<Weather> WeatherAPI()
-        {
-
-            var client = HttpClientFactory.CreateClient();
-
-            client.DefaultRequestHeaders
-                .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = client.GetAsync(string.Format("http://api.weatherapi.com/v1/current.json?key=71de2c37ead844df82261931231404&q=England&aqi=no")).Result;
-
-
-            var weather = new Weather();
-
-            return weather;
-        }
-    }
 }
