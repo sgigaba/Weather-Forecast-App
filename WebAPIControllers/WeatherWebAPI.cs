@@ -13,6 +13,7 @@
     using Newtonsoft.Json;
     using Weather_Forecast_App.Interfaces;
     using Weather_Forecast_App.Models.Weather;
+    using Weather_Forecast_App.ViewModels;
 
     public class WeatherWebAPI : Controller
     {
@@ -27,15 +28,20 @@
 
         public IActionResult GetForeCastData(DataSourceLoadOptions loadOptions, string data)
         {
-            Weather weatherData = this.weatherApiService.GetForecastWeather("England").Result;
-            List<Day> days = new List<Day>();
-
-            foreach (var weatherForcast in weatherData.Forecast.forecastday)
+            Weather weatherData = this.weatherApiService.GetForecastWeather(data).Result;
+            var weatherViewModel = new WeatherViewModel()
             {
-                days.Add(weatherForcast.day);
-            }
+                name = weatherData.Location.name,
+                region = weatherData.Location.region,
+                country = weatherData.Location.country,
+                lat = weatherData.Location.lat,
+                temp_c = weatherData.Current.temp_c  
+            };
+            List<WeatherViewModel> weatherList = new List<WeatherViewModel>();
 
-            return Json(DataSourceLoader.Load(days, loadOptions));
+            weatherList.Add(weatherViewModel);
+
+            return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
 
         [HttpGet]
