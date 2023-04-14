@@ -6,9 +6,6 @@
     <RootNamespace>Weather_Forecast_App</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\js\Home\WeatherForeCast.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="DevExtreme.AspNet.Core" Version="22.2.4" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.9.0" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.0.4">
@@ -16,8 +13,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\Home\WeatherForeCast.ts" />
   </ItemGroup>
 </Project>

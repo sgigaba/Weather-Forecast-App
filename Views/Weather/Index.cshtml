@@ -1,37 +1,41 @@
-﻿@{
+﻿@model Weather_Forecast_App.Models.Weather.Weather
+
+@{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
 
-@(Html.DevExtreme().DataGrid<Weather_Forecast_App.Models.Weather.Weather>()
-    .DataSource(ds => ds.Mvc()
-        .Controller("WeatherWebAPI")
-        .LoadAction("Get")
-        .InsertAction("Post")
-        .UpdateAction("Put")
-        .DeleteAction("Delete")
-    )
-    .RemoteOperations(true)
-    .GroupPanel(_ => _.Visible(true))
-    .Grouping(g => g.AutoExpandAll(false))
-    .Columns(columns => {
+<div class="dx-fieldset-header">
+    Select a Country below for weather forcast
+</div>
 
-        columns.AddFor(m => m.Location.name);
+<div class="dx-field">
+    <div class="dx-field-label">Country</div>
+    <div class="dx-field-value">
+        @(Html.DevExtreme().SelectBox()
+            .ID("search-box")
+            .DataSource(d => d
+            .Mvc()
+            .Controller("WeatherWebAPI")
+            .LoadAction("GetCountryList")
+            .Key("ID")
+            )
+            .DisplayExpr("name")
+            .OnValueChanged("ViewCountryForecast")
+            .SearchEnabled(true)
+            )
+    </div>
+</div>
 
-        columns.AddFor(m => m.Location.country);
-
-        columns.AddFor(m => m.Location.localtime_epoch);
-
-        columns.AddFor(m => m.Location.region);
-
-        columns.AddFor(m => m.Current.temp_c);
-
-        columns.AddFor(m => m.Current.humidity);
-
-        columns.AddFor(m => m.Current.wind_mph);
-    })
-    .Editing(e => e
-        .AllowDeleting(true)
-    )
+@(Html.DevExtreme().Form()
+            .ID("form")
+            .ColCount(4)
+            .FormData(Model)
+            .LabelMode(FormLabelMode.Floating)
+            .LabelLocation(FormLabelLocation.Left)
+            .MinColWidth(300)
+            .ReadOnly(true)
+            .ShowColonAfterLabel(true)
 )
+
+<script src="~/js/pages/WeatherForeCast.js"></script>

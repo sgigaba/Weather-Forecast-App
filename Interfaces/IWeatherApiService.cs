@@ -8,5 +8,7 @@
 
         Weather DecodeWeatherResponse(string response);
 
+        Task<Weather> GetForecastWeather(string country);
+
     }
 }

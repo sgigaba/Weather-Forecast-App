@@ -33,9 +33,9 @@
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
 
-        public IActionResult GetForeCastData(DataSourceLoadOptions loadOptions)
+        public IActionResult GetForeCastData(DataSourceLoadOptions loadOptions, string data)
         {
-            Weather weatherData = this.weatherApiService.GetWeather().Result;
+            Weather weatherData = this.weatherApiService.GetForecastWeather("England").Result;
             List<Day> days = new List<Day>();
 
             foreach (var weatherForcast in weatherData.Forecast.forecastday)
@@ -44,7 +44,36 @@
             }
 
             return Json(DataSourceLoader.Load(days, loadOptions));
+        }
 
+        [HttpGet]
+        public Weather test(string data)
+        {
+            Weather weatherData = this.weatherApiService.GetForecastWeather("England").Result;
+            
+            return weatherData;
+        }
+
+        public IActionResult GetCountryList(DataSourceLoadOptions loadOptions)
+        {
+            EnumCountries taiwan = new EnumCountries()
+            {
+                Id = 1,
+                name = "Taiwan"
+            };
+
+            EnumCountries england = new EnumCountries()
+            {
+                Id = 2,
+                name = "England"
+            };
+
+            List<EnumCountries> countries = new List<EnumCountries>();
+
+            countries.Add(taiwan);
+            countries.Add(england);
+
+            return Json(DataSourceLoader.Load(countries, loadOptions));
         }
     }
 

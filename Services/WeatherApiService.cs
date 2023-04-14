@@ -41,5 +41,25 @@
 
             return weather;
         }
+
+        public async Task<Weather> GetForecastWeather(string country)
+        {
+
+            var client = HttpClientFactory.CreateClient();
+
+            client.DefaultRequestHeaders
+                .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = client
+                .GetAsync(string
+                .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q="+country+ "&days=3&aqi=no&alerts=no"))
+                .Result;
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var weather = this.DecodeWeatherResponse(responseString);
+
+            return weather;
+        }
     }
 }

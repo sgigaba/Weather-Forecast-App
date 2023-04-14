@@ -36,12 +36,11 @@ namespace Weather_Forecast_App
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Weather}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Weather}/{action=Index}/{id?}");
-
+                pattern: "{controller=WeatherWebAPI}/{action=Index}/{id?}");
             app.Run();
 
         }
