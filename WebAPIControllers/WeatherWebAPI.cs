@@ -26,9 +26,9 @@
         [HttpGet]
         public IActionResult Get(DataSourceLoadOptions loadOptions)
         {
-            Current weatherData = this.weatherApiService.GetWeather().Result.Current;
+            Weather weatherData = this.weatherApiService.GetWeather().Result;
 
-            List<Current> weatherList = new List<Current>() { weatherData };
+            List<Weather> weatherList = new List<Weather>() { weatherData };
 
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }

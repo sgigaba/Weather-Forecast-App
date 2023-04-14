@@ -7,5 +7,6 @@
         Task<Weather> GetWeather();
 
         Weather DecodeWeatherResponse(string response);
+
     }
 }

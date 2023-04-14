@@ -32,7 +32,7 @@
 
             var response = client
                 .GetAsync(string
-                .Format("http://api.weatherapi.com/v1/current.json?key=71de2c37ead844df82261931231404&q=Taiwan&aqi=no"))
+                .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q=London&days=3&aqi=no&alerts=no"))
                 .Result;
 
             var responseString = await response.Content.ReadAsStringAsync();

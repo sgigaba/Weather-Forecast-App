@@ -1,6 +1,6 @@
 ﻿namespace Weather_Forecast_App.Models.Weather
 {
-    public class Current
+    public class CurrentWeather
     {
         public decimal temp_c { get; set; }
 
