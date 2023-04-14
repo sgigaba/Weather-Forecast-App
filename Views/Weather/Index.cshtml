@@ -13,6 +13,8 @@
         .DeleteAction("Delete")
     )
     .RemoteOperations(true)
+    .GroupPanel(_ => _.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
     .Columns(columns => {
 
         columns.AddFor(m => m.Location.name);

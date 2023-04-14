@@ -8,5 +8,10 @@ namespace Weather_Forecast_App.Controllers.Weather
         {
             return View();
         }
+
+        public IActionResult WeatherForcast()
+        {
+            return View();
+        }
     }
 }

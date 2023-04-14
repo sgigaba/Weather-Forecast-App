@@ -32,6 +32,20 @@
 
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
+
+        public IActionResult GetForeCastData(DataSourceLoadOptions loadOptions)
+        {
+            Weather weatherData = this.weatherApiService.GetWeather().Result;
+            List<Day> days = new List<Day>();
+
+            foreach (var weatherForcast in weatherData.Forecast.forecastday)
+            {
+                days.Add(weatherForcast.day);
+            }
+
+            return Json(DataSourceLoader.Load(days, loadOptions));
+
+        }
     }
 
 }
