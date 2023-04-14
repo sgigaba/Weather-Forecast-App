@@ -4,8 +4,8 @@
 
     public interface IWeatherApiService
     {
-        Weather GetWeather();
+        Task<Weather> GetWeather();
 
-        Task<Weather> DecodeWeatherResponse(string response);
+        Weather DecodeWeatherResponse(string response);
     }
 }

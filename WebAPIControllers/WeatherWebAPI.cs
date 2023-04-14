@@ -32,4 +32,6 @@
 
             return Json(DataSourceLoader.Load(weatherList, loadOptions));
         }
+    }
+
 }
