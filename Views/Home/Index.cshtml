@@ -1,8 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿<div class="dx-fieldset-header">
+    Select a Country below for weather forcast
 </div>
+
+<div class="dx-field">
+    <div class="dx-field-label">Country</div>
+    <div class="dx-field-value">
+        @(Html.DevExtreme().SelectBox()
+            .ID("search-box")
+            .DataSource(d => d
+            .Mvc()
+            .LoadAction("GetCountryList")
+            .LoadMode(DataSourceLoadMode.Raw)
+            .Key("ID")
+            )
+            .DisplayExpr("name")
+            .SearchEnabled(true)
+            .OnValueChanged("ViewCountryForecast")
+            )
+    </div>
+</div>
+
+<script> 
+    function ViewCountryForecast(data)
+    {
+        Console.log(data);
+    }
+
+</script>

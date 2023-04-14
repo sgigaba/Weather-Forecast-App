@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Weather_Forecast_App.Models;
+using Weather_Forecast_App.Models.Weather;
 
 namespace Weather_Forecast_App.Controllers
 {
@@ -27,6 +30,28 @@ namespace Weather_Forecast_App.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult GetCountryList(DataSourceLoadOptions loadOptions)
+        {
+            EnumCountries taiwan = new EnumCountries()
+            {
+                Id = 1,
+                name = "Taiwan"
+            };
+
+            EnumCountries england = new EnumCountries()
+            {
+                Id = 2,
+                name = "England"
+            };
+
+            List<EnumCountries> countries = new List<EnumCountries>();
+
+            countries.Add(taiwan);
+            countries.Add(england);
+
+            return Json(DataSourceLoader.Load(countries, loadOptions));
         }
     }
 }
